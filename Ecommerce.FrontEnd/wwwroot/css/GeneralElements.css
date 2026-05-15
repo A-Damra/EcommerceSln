@@ -3,9 +3,14 @@
     margin: 0;
     font-family: 'Inter', Arial, sans-serif
 }
+
 body {
     color: #faf9f5;
     background-color: #141413;
+}
+
+.dark-bg {
+    background-color: #30302e !important;
 }
 
 .btn-header {
@@ -84,4 +89,8 @@ body {
 
 .desc-text {
     color: #abb0ae !important;
+}
+
+.spliter {
+    color: #aaaa9e;
 }

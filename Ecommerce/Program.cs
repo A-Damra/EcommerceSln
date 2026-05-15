@@ -13,6 +13,18 @@ builder.Services.AddScoped<IModelRepository, CategoryRepository>();
 
 builder.Services.AddControllers();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowBlazor", builder =>
+    {
+        builder.WithOrigins("https://localhost:7104", "http://localhost:5205")
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
+
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
@@ -26,7 +38,7 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
-
+app.UseCors("AllowBlazor");
 app.UseSwagger();
 
 app.UseSwaggerUI();

@@ -1,0 +1,67 @@
+﻿@page "/add-category"
+
+<link rel="stylesheet" href="css/GeneralElements.css" />
+
+<h3 class="m-1 mb-3">Add Category</h3>
+
+<div class="row mb-4">
+    <div class="row">
+        <div class="col">
+            <label for="categoryName" class="form-label">Category Name</label>
+        </div>
+        <div class="col">
+            <label for="parentCategory">Parent Category</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <input type="text" class="form-control search-bar" id="categoryName" placeholder="Enter category name" />
+        </div>
+        <div class="col">
+            <select class="form-control search-bar">
+                <option selected>None (Top Level)</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="row">
+        <div class="col">
+            <label class="form-label" for="status">Status</label>
+        </div>
+        <div class="col">
+            <label class="form-label" for="categoryImage">Category Image</label>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <select class="form-control search-bar">
+                <option selected>Active</option>
+                <option>Disabled</option>
+            </select>
+        </div>
+        <div class="col">
+            <input type="file" class="form-control search-bar" />
+        </div>
+    </div>
+
+    <div class="row">
+        <hr class="spliter mt-5" />
+
+        <div class="col">
+            <button class="btn-header mt-3 w-100">Cancel</button>
+        </div>
+
+        <div class="col">
+            <button class="btn-header mt-3 w-100">Save</button>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    // add categories to dropdown
+}

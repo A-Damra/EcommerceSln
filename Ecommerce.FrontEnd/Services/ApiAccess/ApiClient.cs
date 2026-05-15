@@ -13,7 +13,7 @@ namespace Ecommerce.FrontEnd.Services.ApiAccess
 
         public async Task<T?> GetAsync<T>(string url)
         {
-            return await httpClient.GetFromJsonAsync<T>(url);
+            return await httpClient.GetFromJsonAsync<T>("https://localhost:7039/" + url);
         }
 
         public async Task<TResponse?> PostAsync<TRequest, TResponse>(string url, TRequest data)

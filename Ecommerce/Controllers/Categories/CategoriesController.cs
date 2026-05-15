@@ -1,15 +1,16 @@
 ﻿using Ecommerce.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Domain.Entities;
+using Ecommerce.Application.Interfaces;
 namespace Ecommerce.API.Controllers.Categories
 {
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {
-        private readonly CategoryRepository categoryRepository;
+        private readonly IModelRepository categoryRepository;
 
-        public CategoriesController(CategoryRepository categoryRepository)
+        public CategoriesController(IModelRepository categoryRepository)
         {
             this.categoryRepository = categoryRepository;
         }
@@ -32,7 +33,7 @@ namespace Ecommerce.API.Controllers.Categories
         }
 
         [HttpPost("InsertCategory")]
-        public async Task<IActionResult> InsertCategory(Ecommerce.Domain.Entities.Categories categories)
+        public async Task<IActionResult> InsertCategory(Category categories)
         {
             var result = await categoryRepository.CreateAsync(categories);
 
@@ -43,7 +44,7 @@ namespace Ecommerce.API.Controllers.Categories
         }
 
         [HttpPost("UpdateCategory")]
-        public async Task<IActionResult> UpdateCategory(Ecommerce.Domain.Entities.Categories categories)
+        public async Task<IActionResult> UpdateCategory(Category categories)
         {
             var result = await categoryRepository.UpdateAsync(categories);
 

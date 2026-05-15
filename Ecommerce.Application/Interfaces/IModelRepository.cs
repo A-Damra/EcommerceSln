@@ -1,6 +1,4 @@
-﻿using Ecommerce.Domain.Entities;
-
-namespace Ecommerce.Application.Interfaces
+﻿namespace Ecommerce.Application.Interfaces
 {
     public interface IModelRepository
     {
