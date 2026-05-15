@@ -34,9 +34,9 @@ namespace Ecommerce.Infrastructure.Repositories
             using var connection = dbContext.CreateConnection();
 
             string query = (@"INSERT INTO Products 
-            (ProductGuid, CategoryGuid, Name, Description, ImageUrl, StockQuantity, Price, CreatedAt) 
+            (ProductGuid, CategoryGuid, Name, Description, ImageUrl, StockQuantity, Price, CreatedAt, IsActive) 
             VALUES 
-            (@ProductGuid, @CategoryGuid, @Name, @Description, @ImageUrl, @StockQuantity, @Price, @CreatedAt)");
+            (@ProductGuid, @CategoryGuid, @Name, @Description, @ImageUrl, @StockQuantity, @Price, @CreatedAt, @IsActive)");
 
             return await connection.ExecuteAsync(query, product);
         }
@@ -48,7 +48,7 @@ namespace Ecommerce.Infrastructure.Repositories
             string query = (@"UPDATE Products 
             SET CategoryGuid = @CategoryGuid, 
             Name = @Name, Description = @Description, 
-            ImageUrl = @ImageUrl, StockQuantity = @StockQuantity, Price = @Price
+            ImageUrl = @ImageUrl, StockQuantity = @StockQuantity, Price = @Price, IsActive = @IsActive
             WHERE ProductGuid = @ProductGuid");
 
             return await connection.ExecuteAsync(query, product);
@@ -58,7 +58,7 @@ namespace Ecommerce.Infrastructure.Repositories
         {
             using var connection = dbContext.CreateConnection();
 
-            return await connection.ExecuteAsync("DELETE FROM Products WHERE ProductGuid = @ProductGuid",
+            return await connection.ExecuteAsync("UPDATE Products SET IsActive = 0 WHERE ProductGuid = @ProductGuid",
                 new { ProductGuid = productGuid });
         }
     }

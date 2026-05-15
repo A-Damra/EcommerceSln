@@ -1,6 +1,6 @@
 ﻿namespace Ecommerce.Domain.Entities
 {
-    public class Categories
+    public class Category
     {
         public Guid CategoryGuid { get; set; } = Guid.NewGuid();
         public Guid CategoryParent { get; set;}

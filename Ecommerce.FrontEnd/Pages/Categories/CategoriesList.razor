@@ -1,0 +1,53 @@
+﻿@page "/CategoriesList"
+@using Ecommerce.Domain.Entities
+
+<link rel="stylesheet" href="css/GeneralElements.css" />
+
+<h3 class="m-1 mb-3">Categories List</h3>
+
+<div class="row g-2">
+    <div class="col">
+        <input class="form-control search-bar" placeholder="Search Categories..." />
+    </div>
+    <div class="col-auto">
+        <button class="btn-header">Search</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <table class="table mt-4 text-center align-middle">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @foreach (var cat in categories)
+                    {
+                        <td>@cat.Name</td>
+                        <td>
+                        </td>
+                        <td>
+                            <button class="btn-detail">Edit</button>
+                            <button class="btn-detail">Delete</button>
+                        </td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@code {
+    private List<Category> categories = new List<Category>();
+
+    protected async override Task OnInitializedAsync()
+    {
+        categories = await ApiClient.GetAsync<List<Category>>("api/Categories/GetCategories") ?? new List<Category>();
+    }
+}
