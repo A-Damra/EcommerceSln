@@ -18,7 +18,7 @@ namespace Ecommerce.Infrastructure.Repositories
             using var connection = dapperContext.CreateConnection();
 
             string query = (@"INSERT INTO Categories
-            VALUES (@CategoryGuid, @CategoryParent, @Name)");
+            VALUES (@CategoryGuid, @CategoryParent, @Name, @IsActive)");
 
             return await connection.ExecuteAsync(query, obj);
         }
@@ -27,7 +27,7 @@ namespace Ecommerce.Infrastructure.Repositories
         {
             using var connection = dapperContext.CreateConnection();
 
-            string query = (@"DELETE FROM Categories WHERE CategoryGuid = @CategoryGuid");
+            string query = (@"UPDATE Categories SET IsActive = 0 WHERE CategoryGuid = @CategoryGuid");
 
             return await connection.ExecuteAsync(query, new { CategoryGuid = guid });
         }
@@ -54,7 +54,7 @@ namespace Ecommerce.Infrastructure.Repositories
         {
             using var connection = dapperContext.CreateConnection();
 
-            string query = (@"UPDATE Categories SET CategoryParent = @CategoryParent, Name = @Name
+            string query = (@"UPDATE Categories SET CategoryParent = @CategoryParent, Name = @Name, IsActive = @IsActive
             WHERE CategoryGuid = @CategoryGuid");
 
             return await connection.ExecuteAsync(query, obj);
