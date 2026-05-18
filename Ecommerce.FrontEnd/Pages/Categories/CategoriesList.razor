@@ -1,5 +1,8 @@
 ﻿@page "/CategoriesList"
+
 @using Ecommerce.Domain.Entities
+
+@inject NavigationManager NavigationManager
 
 <link rel="stylesheet" href="css/GeneralElements.css" />
 
@@ -25,18 +28,17 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    @foreach (var cat in categories)
-                    {
+                @foreach (var cat in categories)
+                {
+                    <tr>
                         <td>@cat.Name</td>
+                        <td><span class="badge @(cat.IsActive ? "active-status" : "inactive-status")">@cat.IsActive </span></td>
                         <td>
+                            <button class="btn-detail" @onclick="() => Edit(cat.CategoryGuid)">Edit</button>
+                            <button class="btn-detail" @onclick="() => Delete(cat.CategoryGuid)">Delete</button>
                         </td>
-                        <td>
-                            <button class="btn-detail">Edit</button>
-                            <button class="btn-detail">Delete</button>
-                        </td>
-                    }
-                </tr>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
@@ -49,5 +51,15 @@
     protected async override Task OnInitializedAsync()
     {
         categories = await ApiClient.GetAsync<List<Category>>("api/Categories/GetCategories") ?? new List<Category>();
+    }
+
+    private async Task Edit(Guid catGuid)
+    {
+        NavigationManager.NavigateTo($"/update-category/{catGuid}");
+    }
+
+    private async Task Delete(Guid catGuid)
+    {
+        var result = await ApiClient.Delete<int>($"api/Categories/DeleteCategory", catGuid);
     }
 }

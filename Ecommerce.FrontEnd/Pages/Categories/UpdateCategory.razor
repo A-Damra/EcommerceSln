@@ -1,5 +1,127 @@
-﻿<h3>UpdateCategory</h3>
+﻿@page "/update-category/{guid}"
+
+@using Ecommerce.Domain.Entities
+@inject NavigationManager NavigationManager
+
+<link rel="stylesheet" href="css/GeneralElements.css" />
+
+<h3 class="m-1 mb-3">Add Category</h3>
+
+@if (saved)
+{
+    <div class="alert alert-success">Category saved successfuly</div>
+}
+
+@if (fail)
+{
+    <div class="alert alert-danger">Failed to category</div>
+}
+
+
+<EditForm Model="@category" @OnValidSubmit="@Save()">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="row mb-4">
+        <div class="row">
+            <div class="col">
+                <label for="categoryName" class="form-label">Category Name</label>
+            </div>
+            <div class="col">
+                <label for="parentCategory">Parent Category</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <InputText class="form-control search-bar" id="categoryName" placeholder="Enter category name" @bind-value="category.Name" />
+            </div>
+            <div class="col">
+                <InputSelect class="form-control search-bar" @bind-value="category.CategoryParent">
+                    <option selected value="@Guid.Empty">None (Top Level)</option>
+                    @foreach (var cat in categoriesList)
+                    {
+                        <option value="@cat.CategoryGuid">@cat.Name</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="row">
+            <div class="col">
+                <label class="form-label" for="status">Status</label>
+            </div>
+            <div class="col">
+                <label class="form-label" for="categoryImage">Category Image</label>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <InputSelect class="form-select search-bar" @bind-Value="category.IsActive">
+                    <option value="true">Active</option>
+                    <option value="false">Disabled</option>
+                </InputSelect>
+            </div>
+            <div class="col">
+                <InputFile class="form-control search-bar" @bind="category.ImageUrl" />
+            </div>
+        </div>
+
+        <div class="row">
+            <hr class="spliter mt-5" />
+
+            <div class="col">
+                <button class="btn-header mt-3 w-100" type="button" @onclick="Cancel">Cancel</button>
+            </div>
+
+            <div class="col">
+                <button class="btn-header mt-3 w-100" type="submit">Save</button>
+            </div>
+        </div>
+    </div>
+</EditForm>
 
 @code {
+    private Category category = new Category();
+    private List<Category> categoriesList = new List<Category>();
 
+    private string catGuid = string.Empty;
+
+    private bool saved = false;
+    private bool fail = false;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        categoriesList = await ApiClient.GetAsync<List<Category>>("api/Categories/GetCategories") ?? new List<Category>();
+        categoriesList = categoriesList.Where(c => c.IsActive == true).ToList();
+
+        category = await ApiClient.GetAsync<Category>($"api/Categories/GetCategory/{catGuid}") ?? new Category();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task Save()
+    {
+        var result = await ApiClient.PostAsync<Category, int>("api/Categories/UpdateCategory", category);
+
+        if (result != 0)
+        {
+            saved = true;
+            StateHasChanged();
+        }
+        else
+        {
+            fail = true;
+            StateHasChanged();
+        }
+    }
+
+    private async Task Cancel()
+    {
+        NavigationManager.NavigateTo("/categories", true);
+        StateHasChanged();
+    }
 }
