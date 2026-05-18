@@ -80,11 +80,15 @@ body {
 .active-status {
     background-color: #1b4614 !important;
     color: #7aaf2f !important;
+    padding-top: 6px;
+    padding-bottom: 6px;
 }
 
 .inactive-status {
     background-color: #424240 !important;
     color: #c2beb1 !important;
+    padding-top: 6px;
+    padding-bottom: 6px;
 }
 
 .desc-text {

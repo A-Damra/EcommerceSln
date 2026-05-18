@@ -1,5 +1,4 @@
-﻿using Ecommerce.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Ecommerce.Domain.Entities;
 using Ecommerce.Application.Interfaces;
 namespace Ecommerce.API.Controllers.Categories
@@ -54,14 +53,15 @@ namespace Ecommerce.API.Controllers.Categories
                 return BadRequest("Failed to update Category.");
         }
 
-        [HttpPost("DeleteCategory{guid}")]
+        [HttpPost("DeleteCategory/{guid}")]
         public async Task<IActionResult> DeleteCategory(Guid guid)
         {
             var result = await categoryRepository.DeleteAsync(guid);
+
             if (result > 0)
                 return Ok("Category was deleted");
-            else
-                return BadRequest("Failed to delete Category.");
+
+            return BadRequest("Failed to delete Category.");
         }
     }
 }
